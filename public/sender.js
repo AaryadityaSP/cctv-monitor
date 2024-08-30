@@ -6,7 +6,6 @@ let id ;
 socket.on('id', (gen_id)=>{
   id = gen_id;
   console.log(id);
-  
 })
 
 

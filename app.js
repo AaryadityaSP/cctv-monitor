@@ -21,8 +21,7 @@ io.on('connection', (socket) => {
   console.log(`user with id: ${id} connected`);
   
   
-  socket.emit('add video', id);
-  //create a new video element
+  socket.broadcast.emit('add video', id);
   
   
 
@@ -32,7 +31,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`user with id: ${id} disconnected`);
-    // delete the video element 
+    socket.broadcast.emit('remove video', id);
   });
 });
 
