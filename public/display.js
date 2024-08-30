@@ -7,7 +7,7 @@ console.log(videoDiv);
 socket.on('add video', (id)=>{
     const div = document.createElement('div');
     div.id = id;
-    div.style = {backgroundColor:'lightblue', margin:'10px', padding:'10px'};
+    div.styles={backgroundColor:'lightblue', margin:'10px', padding:'10px'};
     div.textContent = id;
     videoDiv.appendChild(div)
 })

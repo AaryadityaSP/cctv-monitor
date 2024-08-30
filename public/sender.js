@@ -1,10 +1,13 @@
 const socket = io(); 
 const localVideo = document.getElementById('localVideo'); 
 
+const idPlaceholder = document.getElementById('id-placeholder');
+
 let id ; 
 
 socket.on('id', (gen_id)=>{
   id = gen_id;
+  idPlaceholder.textContent = gen_id;
   console.log(id);
 })
 

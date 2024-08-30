@@ -19,19 +19,19 @@ app.get('/', (req, res)=>{
 io.on('connection', (socket) => {
   let id = uuid();
   console.log(`user with id: ${id} connected`);
-  
-  
-  socket.broadcast.emit('add video', id);
-  
-  
 
+  socket.emit('id', id); //sending unique id to sender...
+  
+  socket.broadcast.emit('add video', id);//sending to display client to make a new video element
+  
+  
   socket.on('frame', (data, id) => {
     
   });
 
   socket.on('disconnect', () => {
     console.log(`user with id: ${id} disconnected`);
-    socket.broadcast.emit('remove video', id);
+    socket.broadcast.emit('remove video', id); //sending to display client to remove the video element
   });
 });
 
@@ -42,3 +42,7 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+// Todo
+// 1. instead of emiting on all users try to send to specfic /display route users 
