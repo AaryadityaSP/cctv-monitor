@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Webcam Stream</title>
+</head>
+<body>
+  <h1>Live Webcam Stream</h1>
+  <video id="localVideo" autoplay playsinline></video>
+  <video id="remoteVideo" autoplay playsinline></video>
+
+  <script src="/socket.io/socket.io.js" ></script>
+  <script >
+    const socket = io(); // Initialize the Socket.IO client
+const localVideo = document.getElementById('localVideo'); // The local video element where the webcam feed is displayed
+const remoteVideo = document.getElementById('remoteVideo'); // The remote video element where the streamed video is displayed
+
+// Create MediaSource for the remote video
+const mediaSource = new MediaSource();
+remoteVideo.src = URL.createObjectURL(mediaSource);
+
+let sourceBuffer; // This will hold the SourceBuffer for appending video data
+
+// Event listener for when the MediaSource is ready to accept video data
+mediaSource.addEventListener('sourceopen', () => {
+  // Create a SourceBuffer to manage video data for the stream
+  sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+});
+
+// Access the webcam
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then((stream) => {
+    // Display the local webcam stream
+    localVideo.srcObject = stream;
+
+    // Set up MediaRecorder to capture the webcam stream
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs="vp8"' });
+
+    // Event listener for when data is available from MediaRecorder
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        // Read the video data as an ArrayBuffer
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(event.data);
+        reader.onloadend = () => {
+          // Convert ArrayBuffer to Uint8Array and send it to the server via Socket.IO
+          const buffer = new Uint8Array(reader.result);
+          socket.emit('frame', buffer);
+        };
+      }
+    };
+
+    // Start recording, capturing frames every 100ms
+    mediaRecorder.start(100);
+  })
+  .catch((error) => {
+    console.error('Error accessing webcam:', error);
+  });
+
+// Handle incoming frames from the server
+socket.on('frame', (data) => {
+  if (sourceBuffer && !sourceBuffer.updating) {
+    // Append the received video data to the SourceBuffer
+    sourceBuffer.appendBuffer(data);
+  }
+});
+
+
+
+  </script>
+</body>
+</html>
