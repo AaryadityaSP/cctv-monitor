@@ -3,68 +3,48 @@ const socket = io();
 const videoDiv = document.getElementById('streams');
 console.log(videoDiv);
 
+let display_id;
 
-socket.on('add video', (id)=>{
-    const div = document.createElement('div');
-    div.id = id;
-    div.styles={backgroundColor:'lightblue', margin:'10px', padding:'10px'};
-    div.textContent = id;
-    videoDiv.appendChild(div)
+let peer = new Peer('display', {host:'/', port:'3001'});
+
+socket.emit('display connect');
+socket.on('displayId', (id)=>{  //saving display_id
+    display_id=id;
+    console.log(display_id);
+    
 })
+
+let videoElement = document.getElementById('video');
+
+// socket.on('add video', (id)=>{
+    // videoElement = document.createElement('video');
+    // videoElement.id = id;
+    // videoElement.autoplay = true;
+    // videoElement.playsInline = true;
+    // videoDiv.appendChild(videoElement);
+// })
+
+peer.on('call', function(call) {
+    call.answer(null); // Answer the call with an A/V stream.
+    call.on('stream', function(remoteStream) {
+
+        videoElement.srcObject = remoteStream;
+        videoElement.muted = true;
+        videoElement.autoplay = true;
+        videoElement.playsInline = true;
+
+        console.log(videoElement);
+        
+        console.log(remoteStream);
+
+        console.log('called');
+    });
+});
+
+
+
 
 socket.on('remove video',(id)=>{
     const div = document.getElementById(id);
     div.remove();
 })
-
-
-
-// const localVideo = document.getElementById('localVideo'); 
-// const remoteVideo = document.getElementById('remoteVideo'); 
-
-
-// const mediaSource = new MediaSource();
-// remoteVideo.src = URL.createObjectURL(mediaSource);
-
-// let sourceBuffer;
-
-
-// mediaSource.addEventListener('sourceopen', () => {
-//   sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
-// });
-
-
-// navigator.mediaDevices.getUserMedia({ video: true })
-//   .then((stream) => {
-//     localVideo.srcObject = stream;
-
-//     const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs="vp8"' });
-
-
-//     mediaRecorder.ondataavailable = (event) => {
-//       if (event.data.size > 0) {
-
-//         const reader = new FileReader();
-//         reader.readAsArrayBuffer(event.data);
-//         reader.onloadend = () => {
-
-//           const buffer = new Uint8Array(reader.result);
-//           socket.emit('frame', buffer);
-//         };
-//       }
-//     };
-
-
-//     mediaRecorder.start(100);
-//   })
-//   .catch((error) => {
-//     console.error('Error accessing webcam:', error);
-//   });
-
-
-// socket.on('frame', (data) => {
-//   if (sourceBuffer && !sourceBuffer.updating) {
-
-//     sourceBuffer.appendBuffer(data);
-//   }
-// });

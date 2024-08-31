@@ -3,37 +3,28 @@ const localVideo = document.getElementById('localVideo');
 
 const idPlaceholder = document.getElementById('id-placeholder');
 
-let id ; 
+let ids = {};
 
-socket.on('id', (gen_id)=>{
-  id = gen_id;
-  idPlaceholder.textContent = gen_id;
-  console.log(id);
-})
+socket.on('ids', (ids_com)=>{
 
+  ids = ids_com;
+  let id_string = `cliend id: ${ids.client_id}<br/> display_id: ${ids.display_id}`;
+  idPlaceholder.innerHTML = id_string;
 
-navigator.mediaDevices.getUserMedia({ video: true })
-  .then((stream) => {
+  const peer = new Peer(ids.client_id, {host:'/', port:'3001'});
 
-    localVideo.srcObject = stream;
+  var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  getUserMedia({video: true}, function(stream) {
+    localVideo.srcObject = stream; //setting local video stream to video element
+    var call = peer.call('display', stream);
 
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs="vp8"' });
-
-    mediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(event.data);
-        reader.onloadend = () => {
-          const buffer = new Uint8Array(reader.result);
-          socket.emit('frame', buffer, id);
-        };
-      }
-    };
-
-    mediaRecorder.start(100);
-  })
-  .catch((error) => {
-    console.error('Error accessing webcam:', error);
+  }, function(err) {
+    console.log('Failed to get local stream' ,err);
   });
+  
+
+
+
+})
 
 
