@@ -3,28 +3,23 @@ const localVideo = document.getElementById('localVideo');
 
 const idPlaceholder = document.getElementById('id-placeholder');
 
-let ids = {};
 
-socket.on('ids', (ids_com)=>{
+socket.on('id', (id)=>{
 
-  ids = ids_com;
-  let id_string = `cliend id: ${ids.client_id}<br/> display_id: ${ids.display_id}`;
-  idPlaceholder.innerHTML = id_string;
+  let id_string = `cliend id: ${id}`;
+  idPlaceholder.textContent = id_string;
 
-  const peer = new Peer(ids.client_id, {host:'/', port:'3001'});
+  const peer = new Peer(id, {host:'/', port:'3001'});
 
   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  getUserMedia({video: true}, function(stream) {
-    localVideo.srcObject = stream; //setting local video stream to video element
-    var call = peer.call('display', stream);
+  getUserMedia({video: true}, (stream)=> {
+    localVideo.srcObject = stream;    //setting local video stream to video element
+    peer.call('display', stream);
 
-  }, function(err) {
+  },
+  (err)=> {
     console.log('Failed to get local stream' ,err);
   });
-  
-
-
-
 })
 
 
