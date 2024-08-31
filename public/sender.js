@@ -9,7 +9,7 @@ socket.on('id', (id)=>{
   let id_string = `cliend id: ${id}`;
   idPlaceholder.textContent = id_string;
 
-  const peer = new Peer(id, {host:'/', port:'3001'});
+  const peer = new Peer(id, {host:'/', port:'3001', secure: true});
 
   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
   getUserMedia({video: true}, (stream)=> {

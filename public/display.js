@@ -1,5 +1,5 @@
 const socket = io(); 
-let peer = new Peer('display', {host:'/', port:'3001'});
+let peer = new Peer('display', {host:'/', port:'3001', secure: true});
 
 const videoDiv = document.getElementById('streams');
 

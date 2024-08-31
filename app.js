@@ -1,12 +1,20 @@
 const express = require('express');
-const http = require('node:http');
+const https = require('https');
+const fs = require('fs');
 const socketIO = require('socket.io');
 const uuid = require('uuid').v4;
 
 
+const options = {
+  key: fs.readFileSync(__dirname+'/certificates/server.key'),
+  cert: fs.readFileSync(__dirname+'/certificates/server.crt')
+};
+
+
 const app = express();
-const server = http.createServer( app);
+const server = https.createServer(options ,app);
 const io = socketIO(server);
+
 
 
 
@@ -42,4 +50,3 @@ server.listen(PORT, () => {
 });
 
 
-// Todo
