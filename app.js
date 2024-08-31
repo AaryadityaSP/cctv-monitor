@@ -28,6 +28,9 @@ app.get('/', (req, res)=>{
 io.on('connection', (socket) => {
   let id = uuid();
   
+  socket.on('alert', id=>{
+    console.log('alert on id', id);
+  });
   
   socket.on('display connect', ()=>{
     socket.join('displayRoom');      //adding display client to a 'display' room
