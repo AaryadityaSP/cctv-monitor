@@ -3,7 +3,7 @@ const https = require('https');
 const fs = require('fs');
 const socketIO = require('socket.io');
 const uuid = require('uuid').v4;
-
+const adminRouter = require('./routes/adminRouter');
 
 const options = {
   key: fs.readFileSync(__dirname+'/certificates/server.key'),
@@ -15,14 +15,16 @@ const app = express();
 const server = https.createServer(options ,app);
 const io = socketIO(server);
 
-
-
+app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
+app.use(express.urlencoded({extended:true}));
 
 app.get('/', (req, res)=>{
   res.send('hehe this is homepage');
 })
+
+app.use('/admin', adminRouter);
 
 
 io.on('connection', (socket) => {
