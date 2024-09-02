@@ -28,6 +28,9 @@ app.get('/', (req, res)=>{
 io.on('connection', (socket) => {
   let id = uuid();
   
+  //sending unique id to sender...
+  socket.emit('id', id); 
+
   socket.on('alert', id=>{
     console.log('alert on id', id);
   });
@@ -35,9 +38,6 @@ io.on('connection', (socket) => {
   socket.on('display connect', ()=>{
     socket.join('displayRoom');      //adding display client to a 'display' room
   })
-
-  //sending unique id to sender...
-  socket.emit('id', id); 
   
   //sending to display client to remove the video element
   socket.on('disconnect', () => {
