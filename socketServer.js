@@ -1,5 +1,4 @@
-const uuid = require('uuid').v4;
-
+const { getData, removeData } = require("./db/dbfuctions");
 
 function onConnect(socket) {
     let id;
@@ -11,6 +10,7 @@ function onConnect(socket) {
 
     socket.on('alert', id => {
         console.log('alert on id', id);
+        console.log('details:', getData(id));
     });
 
     socket.on('display connect', () => {
@@ -20,6 +20,7 @@ function onConnect(socket) {
     //sending to display client to remove the video element
     socket.on('disconnect', () => {
         socket.to('displayRoom').emit('remove video', id);
+        removeData(id);
     });
 }
 

@@ -24,7 +24,6 @@
 
     socket.emit('client-id', id);
 
-
     // creating a new client on Peer server with id that came from socket io server
     const peer = new Peer(id, { host: '/', port: '3001' });
 

@@ -1,6 +1,7 @@
 // require('dotenv').config();
 const uuid = require('uuid').v4;
 const {Router} = require('express');
+const {addData} = require('../db/dbfuctions');
 
 const router = Router();
 
@@ -10,9 +11,8 @@ router.get('/', (req, res)=>{
 
 router.post('/add', (req, res)=>{
     const id = uuid();
-    console.log(req.body);
-    console.log(id);
-    res.render('sender' , {id});
+    addData(id,req.body);
+    res.render('sender' , {id, details:req.body});
 })
 
 
