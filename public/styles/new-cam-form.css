@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.form-box{
+    width: 45vi;
+    height: 100vh;
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    background-image: url('/img/background.webp');
+    
+
+}
+.heading{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 600;
+}
+.sub-heading{
+    color: white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 100;
+}
+.form-box-elements{
+    width: 90%;
+    margin: auto;
+    margin-top: 5vh;
+}
+label{
+    color: white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#locality,#state,#city,#pincode,#landmark,#contact,#address{
+    height: 5vh;
+    width: 100%;
+    background: none;
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: white 1px solid;
+}
+.together{
+    width: 100%;
+    /* border: 1px black solid; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.together-child1{
+    /* border: red 1px solid; */
+    width: 49%;
+    
+}
+#floor,#Wing{
+    height: 5vh;
+    width: 100%;
+    background: none;
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: white 1px solid;
+}
+button{
+    height: 4vh;
+    width: 50%;
+    margin-left: 10vi;
+    /* border: 2px red solid; */
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: medium;
+}
+input{
+    color: white;
+    font-size: small;
+    font-weight: 100;
+}

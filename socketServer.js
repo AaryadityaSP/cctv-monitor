@@ -2,10 +2,12 @@ const uuid = require('uuid').v4;
 
 
 function onConnect(socket) {
-    let id = uuid();
+    let id;
 
     //sending unique id to sender...
-    socket.emit('id', id);
+    socket.on('client-id', (clientId)=>{
+        id=clientId;
+    });
 
     socket.on('alert', id => {
         console.log('alert on id', id);

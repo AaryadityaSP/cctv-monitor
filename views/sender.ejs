@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Webcam Stream</title>
 </head>
+
 <body>
   <h1>Live Webcam Stream Send</h1>
-  <p id="id-placeholder">id placeholder</p>
+  <p id="id-placeholder">Client id: <%= locals.id%>
+  </p>
   <video id="localVideo" width="600px" height="500px" autoplay playsinline></video>
-  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
-  <script src="/socket.io/socket.io.js" defer></script>
-  <script src="/sender.js" defer></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script>
+    const socket = io();
+
+    const localVideo = document.getElementById('localVideo');
+    const idPlaceholder = document.getElementById('id-placeholder');
+
+    const id = "<%= locals.id%>" //taking id from express server
+
+    socket.emit('client-id', id);
+
+
+    // creating a new client on Peer server with id that came from socket io server
+    const peer = new Peer(id, { host: '/', port: '3001' });
+
+    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    getUserMedia({ video: true }, (stream) => {
+      localVideo.srcObject = stream;    //setting local video stream to video element
+      peer.call('display', stream);     //calling display client with live local stream
+    },
+
+    (err) => {
+      alert('Failed to get local stream');
+    });
+
+  </script>
 </body>
+
 </html>

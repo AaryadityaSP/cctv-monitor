@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenLayers with User Location</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
+    <link rel="stylesheet" href="/styles/new-cam-form.css">
+    <style>
+        #map {
+            width: 55vi;
+            height: 100vh;
+            /* margin: auto; */     
+        }
+        #map:hover{
+            cursor: grab;
+        }
+        #map:active{
+            cursor: grabbing;
+        }
+        body {
+            display: flex;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="form-box">
+        <h1 s class="heading" style="text-align: center; padding-top: 7px;">CCTV registration form</h1>
+        <h6 class="sub-heading" style="text-align: center;">(all * marked fields are mandatory to be filled)</h6>
+        <form action="/sender/add" method="post">
+            <div class="form-box-elements">
+                <button type="button" id="locateButton">Get My Location</button><br>
+                <label for="landmark">Landmark*</label><br>
+                <input type="text" name="landmark" id="landmark"><br><br>
+            
+                <label for="address">Address*</label><br>
+                <input type="text" name="address" id="address"><br><br>
+                <div class="together">
+                    <div class="together-child1">
+                        <label for="floor">Camera id</label><br>
+                        <input type="text" name="camera-id" id="floor"><br>
+                    </div>
+                    <div class="together-child1">
+                        <label for="Wing">Wing</label><br>
+                        <input type="text" name="wing" id="Wing"><br>
+                    </div>
+                </div>
+                <br>
+                <label for="locality">Locality*</label><br>
+                <input type="text" name="locality" id="locality"><br>
+                <br>
+                <label for="city">District*</label><br>
+                <input type="text" name="district" id="city"><br>
+                <br>
+                <div class="together">
+                    <div class="together-child1">
+                        <label for="state">State*</label><br>
+                        <input type="text" name="state" id="state"><br>
+                    </div>
+                    <div class="together-child1">
+                        <label for="pincode">Pincode*</label><br>
+                        <input type="text" name="pincode" id="pincode"><br><br>
+                    </div>
+                </div>
+                <label for="phone-number">Contact Number of reporting police station*</label><br>
+                <input type="text" name="contact-no" id="contact"><br><br>
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+        
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    })
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([0, 0]), 
+                    zoom: 2
+                })
+            });
+
+            function handleLocationSuccess(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log('Accuracy: ' + position.coords.accuracy + ' meters');
+                const userLocation = ol.proj.fromLonLat([longitude, latitude]);
+                console.log(userLocation);
+                map.getView().setCenter(userLocation);
+                map.getView().setZoom(17);
+
+                const marker = new ol.Overlay({
+                    position: userLocation,
+                    positioning: 'center-center',
+                    element: document.createElement('div'),
+                    stopEvent: false
+                });
+
+                const markerElement = marker.getElement();
+                const img = document.createElement('img');
+                img.src = '/img/pin.png';  // Path to your pin image
+                img.style.width = '30px';  // Adjust the size as needed
+                img.style.height = '30px';
+                markerElement.appendChild(img);
+                map.addOverlay(marker);
+                reverseGeocode(latitude, longitude);
+            }
+
+            function handleLocationError(error) {
+                console.error('Geolocation error:', error.message);
+                alert('Unable to retrieve your location.');
+            }
+
+           
+            function reverseGeocode(latitude, longitude) {
+                const apiKey = '04182796b2f14abc8d9c5794477b07d3';
+                const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const components = data.results[0].components;
+                        
+                        document.getElementById('locality').value = components.neighbourhood || '';
+                        document.getElementById('city').value = components.state_district || components.town || components.village || '';
+                        document.getElementById('state').value = components.state || '';
+                        document.getElementById('pincode').value = components.postcode || '';
+                        
+                    })
+                    .catch(error => {
+                        console.error('Error with reverse geocoding:', error);
+                    });
+            }
+            document.getElementById('locateButton').addEventListener('click', function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError, {
+                        enableHighAccuracy: true
+                    });
+                } else {
+                    alert('Geolocation is not supported by your browser.');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

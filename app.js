@@ -6,6 +6,7 @@ const fs = require('fs');
 const socketIO = require('socket.io');
 
 const adminRouter = require('./routes/adminRouter');
+const senderRouter = require('./routes/senderRouter');
 const onConnect = require('./socketServer');
 
 const options = {
@@ -29,13 +30,11 @@ app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));
 
 app.get('/', (req, res)=>{
-  res.send('hehe this is homepage');
+  res.send('this is homepage');
 })
 
-app.get('/sender', (req, res)=>{
-  res.render('sender');
-})
 
+app.use('/sender', senderRouter);
 app.use('/admin', adminRouter);
 
 
