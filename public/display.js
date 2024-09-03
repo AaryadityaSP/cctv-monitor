@@ -1,6 +1,6 @@
 const socket = io(); 
 // creating a new client on Peer server with 'display' as id.
-let peer = new Peer('display', {host:'/', port:'3001', secure: true});
+let peer = new Peer('display', {host:'/', port:'3001'});
 
 const videoContainer = document.getElementById('streams');
 

@@ -3,5 +3,5 @@
 2. add css to all pages.
 3. add routes.
 4. integrate info form and info
-5. implement alert
+5. implement alert (working currently)
 6. record video 

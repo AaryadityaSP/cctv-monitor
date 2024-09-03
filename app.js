@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const https = require('https');
+const http = require('node:http');
 const fs = require('fs');
 const socketIO = require('socket.io');
 
@@ -13,7 +15,12 @@ const options = {
 
 
 const app = express();
-const server = https.createServer(options ,app);
+let server ; 
+if(process.env.server=='https')
+  server = https.createServer(options ,app);
+else if(process.env.server='http')
+  server = http.createServer(app); 
+
 const io = socketIO(server);
 
 app.set('view engine', 'ejs');

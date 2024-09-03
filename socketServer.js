@@ -17,7 +17,7 @@ function onConnect(socket) {
 
     //sending to display client to remove the video element
     socket.on('disconnect', () => {
-        io.to('displayRoom').emit('remove video', id);
+        socket.to('displayRoom').emit('remove video', id);
     });
 }
 

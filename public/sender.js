@@ -10,7 +10,7 @@ socket.on('id', (id)=>{
   idPlaceholder.textContent = id_string;
 
   // creating a new client on Peer server with id that came from socket io server
-  const peer = new Peer(id, {host:'/', port:'3001', secure: true});
+  const peer = new Peer(id, {host:'/', port:'3001'});
 
   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
   getUserMedia({video: true}, (stream)=> {
