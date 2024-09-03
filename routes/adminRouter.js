@@ -7,8 +7,8 @@ router.get('/', (req, res)=>{
     res.render('admin-verify');
 })
 
-router.get('/display', (req, res)=>{
-    const {username, password} = req.query;
+router.post('/display', (req, res)=>{
+    const {username, password} = req.body;
     if(username === process.env.adminUsername && password === process.env.adminPassword){
         res.render('display');
     }
