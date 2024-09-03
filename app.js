@@ -24,6 +24,10 @@ app.get('/', (req, res)=>{
   res.send('hehe this is homepage');
 })
 
+app.get('/sender', (req, res)=>{
+  res.render('sender');
+})
+
 app.use('/admin', adminRouter);
 
 
