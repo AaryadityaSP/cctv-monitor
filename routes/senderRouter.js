@@ -1,4 +1,3 @@
-// require('dotenv').config();
 const uuid = require('uuid').v4;
 const {Router} = require('express');
 const {addData} = require('../db/dbfuctions');
