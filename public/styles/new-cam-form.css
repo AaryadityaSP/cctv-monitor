@@ -5,9 +5,9 @@
 .form-box{
     width: 45vi;
     height: 100vh;
-    /* background-color: rgba(255, 255, 255, 0.1); */
-    background-image: url('/img/background.webp');
-    
+    background-image: url('/img/divBG.png');
+    background-repeat: no-repeat;
+    background-size: cover;
 
 }
 .heading{
@@ -29,7 +29,7 @@ label{
     color: white;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-#locality,#state,#city,#pincode,#landmark,#contact,#address{
+#locality,#state,#city,#pincode,#landmark,#contact,#address,#GM-location{
     height: 5vh;
     width: 100%;
     background: none;
@@ -71,6 +71,10 @@ button{
     cursor: pointer;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: medium;
+}
+button:active{
+    color: white;
+    background-color: black;
 }
 input{
     color: white;

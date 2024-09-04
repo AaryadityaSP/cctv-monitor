@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenLayers with User Location</title>
+    <title>CCTV registration</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
     <link rel="stylesheet" href="/styles/new-cam-form.css">
     <style>
@@ -20,7 +20,7 @@
         }
         body {
             display: flex;
-            background-color: aquamarine;
+            background-color: black;
         }
     </style>
 </head>
@@ -66,6 +66,10 @@
                 </div>
                 <label for="phone-number">Contact Number of reporting police station*</label><br>
                 <input type="text" name="contact-no" id="contact"><br><br>
+            
+                <label for="GM-location">Google Maps URL*</label><br>
+                <input type="text" name="location-url" id="GM-location"><br><br>
+
                 <button type="submit">Register</button>
             </div>
         </form>
@@ -109,8 +113,8 @@
                 const markerElement = marker.getElement();
                 const img = document.createElement('img');
                 img.src = '/img/pin.png';  // Path to your pin image
-                img.style.width = '30px';  // Adjust the size as needed
-                img.style.height = '30px';
+                img.style.width = '50px';  // Adjust the size as needed
+                img.style.height = '50px';
                 markerElement.appendChild(img);
                 map.addOverlay(marker);
                 reverseGeocode(latitude, longitude);
@@ -125,13 +129,14 @@
             function reverseGeocode(latitude, longitude) {
                 const apiKey = '04182796b2f14abc8d9c5794477b07d3';
                 const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`;
-
+                
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);
                         const components = data.results[0].components;
                         
+                        document.getElementById('GM-location').value=`https://www.google.com/maps/search/?api=1&query=${latitude}%2C${longitude}`;
                         document.getElementById('locality').value = components.neighbourhood || '';
                         document.getElementById('city').value = components.state_district || components.town || components.village || '';
                         document.getElementById('state').value = components.state || '';
