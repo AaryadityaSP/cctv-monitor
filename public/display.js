@@ -1,6 +1,6 @@
 const socket = io(); 
 // creating a new client on Peer server with 'display' as id.
-let peer = new Peer('display', {host:'/', port:'3001'});
+let peer = new Peer('display', { host: '/', port: '3001', secure: true });
 
 const videoContainer = document.getElementById('streams');
 
@@ -12,9 +12,35 @@ socket.emit('display connect');
 peer.on('call', function(call) {
     call.answer(null);
 
-    call.on('stream', function(remoteStream) {
+    call.on('stream', function (remoteStream) {
+        
+        const socket = new WebSocket('ws://localhost:8765');
+        
         let id = call.peer;
         const videoDiv = createVideoDiv(remoteStream, id);
+        const video = videoDiv.querySelector('video');
+        console.log(video);
+        
+
+        socket.onopen = () => {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            function sendFrame() {
+                if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    const dataURL = canvas.toDataURL('image/jpeg');
+                    const message = JSON.stringify({ id: id, frame: dataURL });
+                    socket.send(message);
+                }
+                setTimeout(sendFrame, 100);
+            }
+            sendFrame();
+        };
+
         videoContainer.appendChild(videoDiv);
     });
 
