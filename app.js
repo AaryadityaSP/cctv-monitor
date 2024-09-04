@@ -7,7 +7,7 @@ const socketIO = require('socket.io');
 
 const adminRouter = require('./routes/adminRouter');
 const senderRouter = require('./routes/senderRouter');
-const onConnect = require('./socketServer');
+const onConnect = require('./socketOnConnect');
 
 const options = {
   key: fs.readFileSync(__dirname+'/certificates/server.key'),
