@@ -19,8 +19,6 @@ peer.on('call', function(call) {
         let id = call.peer;
         const videoDiv = createVideoDiv(remoteStream, id);
         const video = videoDiv.querySelector('video');
-        console.log(video);
-        
 
         socket.onopen = () => {
             const canvas = document.createElement('canvas');
@@ -36,7 +34,7 @@ peer.on('call', function(call) {
                     const message = JSON.stringify({ id: id, frame: dataURL });
                     socket.send(message);
                 }
-                setTimeout(sendFrame, 100);
+                setTimeout(sendFrame, 70);
             }
             sendFrame();
         };
