@@ -7,26 +7,31 @@ import io
 import base64
 import json
 
+# Dictionary to keep track of window names for each video stream
+windows = {}
+
 async def process_frame(websocket, path):
     async for message in websocket:
         # Parse the JSON message
         data = json.loads(message)
-        id = data['id']
+        stream_id = data['id']
         image_data = base64.b64decode(data['frame'].split(",")[1])
         
-        # Log the ID
-        print(f"Received frame from ID: {id}")
-
         # Convert the image data to an OpenCV format
         image = Image.open(io.BytesIO(image_data))
         open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
 
-        # Display the image
-        cv2.imshow(f'Video Frame - ID: {id}', open_cv_image)
+        # Check if a window for this ID already exists
+        if stream_id not in windows:
+            windows[stream_id] = f'Video Frame - ID: {stream_id}'
 
-        # Break the loop if 'q' key is pressed
+        # Display the image in the corresponding window
+        cv2.imshow(windows[stream_id], open_cv_image)
+
+        # Check for 'q' key press to close all windows
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cv2.destroyAllWindows()
+            windows.clear()
             break
 
 start_server = websockets.serve(process_frame, "localhost", 8765)
