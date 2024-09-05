@@ -4,25 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin verification</title>
+    <link rel="stylesheet" href="/styles/admin-verify.css">
 </head>
 <body>
-    <h2>Admin verification</h2>
-    <form action="/admin/display" method="post">
-
-        <div class="field">
-            <label for="username">username</label>
-            <input type="text" id="username" value="<%= locals.username || ''%>" name="username">
+    <div class="right">
+        <div class="container">
+            <div class="header">
+                <img src="/img/logo.png" width="250px" alt="">
+                <p>Admin sign in</p>
+            </div>
+            <form action="/admin/display" method="post">
+                <div class="field">
+                    <label for="username">Username*</label>
+                    <input type="text" id="username" value="<%= locals.username || ''%>" name="username">
+                </div>
+                <div class="field">
+                    <label for="password">Password*</label>
+                    <input type="password" id="password" value="<%= locals.password || '' %>" name="password">
+                </div>
+                <div class="field submit-div">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            <p><%= locals.error %></p>
         </div>
-
-        <div class="field">
-            <label for="password">password</label>
-            <input type="password" id="password" value="<%= locals.password || '' %>" name="password">
-        </div>
-
-        <div class="field">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
-    <p><%= locals.error %></p>
+    </div>
+    <div class="left">
+        <img src="/img/logo.png"  alt="">
+    </div>
 </body>
 </html>
