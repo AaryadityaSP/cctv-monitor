@@ -52,7 +52,7 @@ async def process_frame(websocket, path):
         # Convert the image data to an OpenCV format
         image = Image.open(io.BytesIO(image_data))
         open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-        print(infer(open_cv_image))
+        print(infer(open_cv_image,sio,id))
         # sio.emit('alert','fuck off')
         # Display the images
         # cv2.imshow(f'Video Frame - ID: {id}', open_cv_image)

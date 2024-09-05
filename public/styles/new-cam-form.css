@@ -5,39 +5,42 @@
 .form-box{
     width: 45vi;
     height: 100vh;
-    background-image: url('/img/divBG.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+    /* background-image: url('/img/divBG.png'); */
+    /* background-repeat: no-repeat; */
+    /* background-size: cover; */
+
+    background-color: #2a2e30;
 
 }
 .heading{
-    color: white;
+    color: #e0e0e0;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 600;
 }
 .sub-heading{
-    color: white;
+    color: #e0e0e0;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 100;
 }
 .form-box-elements{
     width: 90%;
     margin: auto;
-    margin-top: 5vh;
+    margin-top: 6vh;
 }
 label{
-    color: white;
+    color: #e0e0e0;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #locality,#state,#city,#pincode,#landmark,#contact,#address,#GM-location{
-    height: 5vh;
+    height: 4vh;
     width: 100%;
+    margin-bottom: 1vh;
     background: none;
     outline: none;
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: white 1px solid;
+    border-bottom: #e0e0e0 1px solid;
 }
 .together{
     width: 100%;
@@ -52,16 +55,18 @@ label{
     
 }
 #floor,#Wing{
-    height: 5vh;
+    height: 4vh;
     width: 100%;
     background: none;
     outline: none;
     border-top: none;
     border-left: none;
     border-right: none;
-    border-bottom: white 1px solid;
+    border-bottom: #e0e0e0 1px solid;
 }
 button{
+    background-color: #345c72;
+    color: #e0e0e0;
     height: 4vh;
     width: 50%;
     margin-left: 10vi;
@@ -81,3 +86,8 @@ input{
     font-size: small;
     font-weight: 100;
 }
+.register{
+    margin-top: 3vh;
+}
+/* #345c72 */
+/* #e0e0e0 */

@@ -25,18 +25,19 @@
     </style>
 </head>
 <body>
-    <div id="map"></div>
+    
     <div class="form-box">
-        <h1 s class="heading" style="text-align: center; padding-top: 7px;">CCTV registration form</h1>
-        <h6 class="sub-heading" style="text-align: center;">(all * marked fields are mandatory to be filled)</h6>
+        
         <form action="/sender/add" method="post">
             <div class="form-box-elements">
+                <h1 s class="heading" style="text-align: center; padding-top: 7px;">CCTV registration form</h1>
+                <h6 class="sub-heading" style="text-align: center;">(all * marked fields are mandatory to be filled)</h6><br>
                 <button type="button" id="locateButton">Get My Location</button><br>
                 <label for="landmark">Landmark*</label><br>
-                <input type="text" name="landmark" id="landmark"><br><br>
+                <input type="text" name="landmark" id="landmark"><br>
             
                 <label for="address">Address*</label><br>
-                <input type="text" name="address" id="address"><br><br>
+                <input type="text" name="address" id="address"><br>
                 <div class="together">
                     <div class="together-child1">
                         <label for="floor">Camera id</label><br>
@@ -47,13 +48,13 @@
                         <input type="text" name="wing" id="Wing"><br>
                     </div>
                 </div>
-                <br>
+                
                 <label for="locality">Locality*</label><br>
                 <input type="text" name="locality" id="locality"><br>
-                <br>
+                
                 <label for="city">District*</label><br>
                 <input type="text" name="district" id="city"><br>
-                <br>
+                
                 <div class="together">
                     <div class="together-child1">
                         <label for="state">State*</label><br>
@@ -61,20 +62,20 @@
                     </div>
                     <div class="together-child1">
                         <label for="pincode">Pincode*</label><br>
-                        <input type="text" name="pincode" id="pincode"><br><br>
+                        <input type="text" name="pincode" id="pincode"><br>
                     </div>
                 </div>
                 <label for="phone-number">Contact Number of reporting police station*</label><br>
-                <input type="text" name="contact-no" id="contact"><br><br>
+                <input type="text" name="contact-no" id="contact"><br>
             
                 <label for="GM-location">Google Maps URL*</label><br>
-                <input type="text" name="location-url" id="GM-location"><br><br>
+                <input type="text" name="location-url" id="GM-location"><br>
 
-                <button type="submit">Register</button>
+                <button type="submit" class="register">Register</button>
             </div>
         </form>
     </div>
-        
+    <div id="map"></div>
     
     
     <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
