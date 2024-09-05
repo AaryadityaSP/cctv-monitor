@@ -22,7 +22,7 @@ def infer(frame):
     # if not ret:
     #     print('help')
     #     break
-    results=model_yolo.predict(frame)
+    results=model_yolo.predict(frame,iou=0.5)
     result=results[0]
     count=0
     count_m=0
@@ -34,7 +34,6 @@ def infer(frame):
             if detection.cls==0:
                 count+=1
                 # print(detection.xyxy)
-                cv2.rectangle(frame,(int(detection.xyxy[0][0]),int(detection.xyxy[0][1])),(int(detection.xyxy[0][2]),int(detection.xyxy[0][3])),(0,255,0),3)
                 # print(detection)
                 frame=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
                 img=Image.fromarray(frame[int(detection.xyxy[0][1]):int(detection.xyxy[0][3]),int(detection.xyxy[0][0]):int(detection.xyxy[0][2])])
@@ -45,14 +44,19 @@ def infer(frame):
                     text_features = model.encode_text(text)
                     logits_per_image, logits_per_text = model(image, text)
                     probs = logits_per_image.softmax(dim=-1).cpu().numpy()
-                cv2.putText(frame,"male" if probs[0][0]>probs[0][1] else "female",(int(detection.xyxy[0][1]),int(detection.xyxy[0][0])),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
+                # cv2.putText(frame,"male" if probs[0][0]>probs[0][1] else "female",(int(detection.xyxy[0][1]),int(detection.xyxy[0][0])),cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
                 print("male" if probs[0][0]>probs[0][1] else "female")
+                cv2.rectangle(frame,(int(detection.xyxy[0][0]),int(detection.xyxy[0][1])),(int(detection.xyxy[0][2]),int(detection.xyxy[0][3])),(0,255,0) if probs[0][0]>probs[0][1] else (255,0,0),3)
                 person.append("male" if probs[0][0]>probs[0][1] else "female")
                 if probs[0][0]>probs[0][1]:
                     count_m+=1
                 else:
                     count_f+=1 
     print(count)
+    cv2.imshow('frame',frame)
+    k=cv2.waitKey(1)
+    if k==ord('q'):
+        cv2.destroyAllWindows()
     if (int(ist_time.strftime('%H'))>22 or int(ist_time.strftime('%H'))<4) and count_f==1 and count_m==0:
         print('lone woman at night')
         

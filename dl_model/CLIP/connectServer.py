@@ -12,10 +12,21 @@ from test_frame import infer
 import sys
 import socketio
 import engineio
+import torch
+from datetime import datetime
+import pytz
+import clip
+from PIL import Image
+import os 
+import cv2
+from ultralytics import YOLO
+from PIL import Image
+ist=pytz.timezone('Asia/Kolkata')
+# cap=cv2.VideoCapture(0)
+device = "mps"
 
 
-
-sys.path.append('/Users/aman/Desktop/socket/python/CLIP')
+sys.path.append('/Users/aman/Desktop/socket/dl_model/CLIP')
 
 
 sio = socketio.Client(ssl_verify=False)
@@ -42,7 +53,7 @@ async def process_frame(websocket, path):
         image = Image.open(io.BytesIO(image_data))
         open_cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
         print(infer(open_cv_image))
-        sio.emit('alert','fuck off')
+        # sio.emit('alert','fuck off')
         # Display the images
         # cv2.imshow(f'Video Frame - ID: {id}', open_cv_image)
         # Break the loop if 'q' key is pressed

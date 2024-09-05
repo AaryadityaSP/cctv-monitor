@@ -34,7 +34,7 @@ peer.on('call', function(call) {
                     const message = JSON.stringify({ id: id, frame: dataURL });
                     socket.send(message);
                 }
-                setTimeout(sendFrame, 70);
+                setTimeout(sendFrame, 1000);
             }
             sendFrame();
         };
