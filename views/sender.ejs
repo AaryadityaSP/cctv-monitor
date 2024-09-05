@@ -5,28 +5,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Webcam Stream</title>
+  <link rel="stylesheet" href="/styles/sender.css">
 </head>
 
 <body>
-  <h1>Live Webcam Stream Send</h1>
-  <p id="id-placeholder">
-    Client id: <%= locals.id%>
-  </p>
-  <video id="localVideo" width="600px" height="500px" autoplay playsinline></video>
+  <header>
+    <div class="left">
+      <img src="/img/logo.png" width="300px" alt="">
+      <p>SECURITY THAT NEVER SLEEPS</p>
+    </div>
+    <div class="right">
+      <div class="field">
+        <p class="label">Client id</p>
+        <p class="value"><%= locals.id %></p>
+      </div>
+      <div class="field">
+        <p class="label">Pincode</p>
+        <p class="value"><%= locals.details.pincode %></p>
+      </div>
+    </div>
+  </header>
+  <section>
+    <div class="left details">
+      <div class="field">
+        <p class="label">Landmark</p>
+        <p class="value"><%= locals.details.landmark %></p>
+      </div>
+      <div class="field">
+        <p class="label">Address</p>
+        <p class="value"><%= locals.details.address %></p>
+      </div>
+      <div class="field">
+        <p class="label">Camera id</p>
+        <p class="value"><%= locals.details['camera-id'] %></p>
+      </div>
+      <div class="field">
+        <p class="label">Wing</p>
+        <p class="value"><%= locals.details.wing %></p>
+      </div>
+      <div class="field">
+        <p class="label">Locality</p>
+        <p class="value"><%= locals.details.locality %></p>
+      </div>
+      <div class="field">
+        <p class="label">District</p>
+        <p class="value"><%= locals.details.district %></p>
+      </div>
+      <div class="field">
+        <p class="label">State</p>
+        <p class="value"><%= locals.details.state %></p>
+      </div>
+      <div class="field">
+        <p class="label">Conatct No</p>
+        <p class="value"><%= locals.details['contact-no'] %></p>
+      </div>
+      <div class="field">
+        <p class="label">Maps url</p>
+        <a class="value" href="<%= locals.details['location-url'] %>" target="_blank">Open in new Tab</a>
+      </div>
+    </div>
+ 
+    <video class="right" id="localVideo"  autoplay playsinline></video>
+  </section>
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <script>
     const socket = io();
 
     const localVideo = document.getElementById('localVideo');
-    const idPlaceholder = document.getElementById('id-placeholder');
 
     const id = "<%= locals.id%>" //taking id from express server
 
     socket.emit('client-id', id);
 
     // creating a new client on Peer server with id that came from socket io server
-    const peer = new Peer(id, { host: '/', port: '3001', secure: true});
+    const peer = new Peer(id, { host: '/', port: '3001', secure: true });
 
     var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
     getUserMedia({ video: true }, (stream) => {
@@ -34,9 +87,9 @@
       peer.call('display', stream);     //calling display client with live local stream
     },
 
-    (err) => {
-      alert('Failed to get local stream');
-    });
+      (err) => {
+        alert('Failed to get local stream');
+      });
 
   </script>
 </body>

@@ -1,0 +1,107 @@
+:root {
+    --bg-color: #2A2E30;
+    --btn-color: #345C72;
+    --font-color: #E0E0E0;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    font-family:  Helvetica, sans-serif;
+}
+
+header{
+    padding: 20px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header .left p{
+    width: 300px;
+    text-align: center;
+    padding:  7px;
+    border-radius: 50px;
+    border: 1px solid var(--font-color);
+    background-color: var(--btn-color);
+}
+header .right{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+section{
+    display: flex;
+    align-items: center;
+    padding: 20px 80px;
+    justify-content: space-between;
+}
+
+section .left{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1 0 0; 
+}
+
+video#localVideo{
+    border-radius: 20px;
+    width: 100%;
+    flex: 1 1 0; 
+}
+
+
+
+
+.field{
+    display: flex;
+}
+
+.field .label{
+    width: 90px;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+  }
+.field .value::before{
+    content: ": ";
+}
+
+@media (max-width: 1040px) {
+    section .left{
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    header, section{
+        padding: 40px;
+    }
+    header{
+        flex-direction: column;
+        gap: 20px;
+    }
+}
