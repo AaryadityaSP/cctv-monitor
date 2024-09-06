@@ -55,6 +55,8 @@ socket.on('remove video', (id)=>{
 function createVideoDiv (stream, id){
     const videoDiv = document.createElement('div');
     videoDiv.id = id;
+    videoDiv.classList.add('videoDiv');
+
 
     let videoElement = document.createElement('video');
     videoElement.autoplay = true;
@@ -62,15 +64,19 @@ function createVideoDiv (stream, id){
     videoElement.muted = true;
     videoElement.srcObject = stream;
     
+    const idPara = document.createElement('p');
+    idPara.textContent = `Camera id : ${id}`;
     let alertBtn = document.createElement('button');
-    alertBtn.textContent= 'alert'
+
+    alertBtn.textContent= ' '
     alertBtn.addEventListener('click', ()=>{
         // sends the 'alert' event on the socket server with id of video
         socket.emit('alert', id);
     })
-    
+
+    idPara.appendChild(alertBtn)
     videoDiv.appendChild(videoElement);
-    videoDiv.appendChild(alertBtn);
+    videoDiv.appendChild(idPara);
 
     return videoDiv;
 }
