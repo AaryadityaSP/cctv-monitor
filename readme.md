@@ -40,13 +40,15 @@ Violence and harassment against women remain a major societal challenge. **ikSHE
 
 ## ⚙️ Tech Stack
 
-| Layer        | Technology                         |
-| ------------ | ---------------------------------- |
-| Frontend     | HTML + TailwindCSS + Vanilla JS    |
-| Backend      | Node.js (Express) + Socket.IO      |
-| ML Inference | Python (Flask/FastAPI)             |
-| Messaging    | Telegram Bot API                   |
-| Database     | MongoDB (Optional) or LocalStorage |
+| **Layer**          | **Technology**                               |
+| ------------------ | -------------------------------------------- |
+| **Frontend**       | HTML + TailwindCSS + Vanilla JS              |
+| **Backend**        | Node.js (Express) + Socket.IO                |
+| **ML Inference**   | Python (YOLOv8, CLIP) via Flask or FastAPI   |
+| **Real-time Comm** | PeerJS + WebRTC                              |
+| **Messaging**      | Telegram Bot API                             |
+| **Database**       | LocalStorage                                 |
+| **Security**       | HTTPS (SSL Certificates) + dotenv for config |
 
 ---
 
